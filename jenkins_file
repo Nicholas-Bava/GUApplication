@@ -10,7 +10,7 @@ pipeline{
 
                 bat "mvn -version"
 
-                dir("C:\Users\nickb\IdeaProjects\GUApplication"){
+                dir("C:/Users/nickb/IdeaProjects/GUApplication"){
                     bat "mvn clean install"
                 }
             }
@@ -19,7 +19,7 @@ pipeline{
 
         stage("Build the basic docker file"){
             steps{
-               dir("C:\Users\nickb\IdeaProjects\GUApplication"){
+               dir("C:/Users/nickb/IdeaProjects/GUApplication"){
                     bat "docker build -t nicholasbava1/presentation_hub ."
                 }
             }
