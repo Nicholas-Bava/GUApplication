@@ -107,6 +107,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>devops_proj</finalName>
 	</build>
 
 </project>

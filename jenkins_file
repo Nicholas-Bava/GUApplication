@@ -1,0 +1,45 @@
+pipeline{
+    agent any
+    tools{
+        maven "MAVEN_HOME"
+    }
+    stages{
+        stage("MVN Test"){
+            steps{
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Nicholas-Bava/GUApplication']])
+
+                bat "mvn -version"
+
+                dir("C:\Users\nickb\IdeaProjects\GUApplication"){
+                    bat "mvn clean install"
+                }
+            }
+
+        }
+
+        stage("Build the basic docker file"){
+            steps{
+               dir("C:\Users\nickb\IdeaProjects\GUApplication"){
+                    bat "docker build -t nicholasbava1/presentation_hub ."
+                }
+            }
+
+        }
+        stage ("Push the image to dockerhub") {
+            steps{
+                script{
+                    withCredentials([string(credentialsId: '4bcfffc8-0f95-4446-a119-2906a53abaf2', variable: 'password')]) {
+                        bat "docker login -u nicholasbava1 -p %password%"
+                        bat "docker push nicholasbava1/presentation_hub"
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always{
+            cleanWs()
+        }
+    }
+
+}
